@@ -53,8 +53,6 @@ Die Lösung folgt einem klassischen Client-Server-Ansatz:
 
 ## Projektstruktur
 
-Eine mögliche Struktur des Repositories:
-
 ```text
 .
 ├─ lib/                      # Flutter-Dart-Code (App)
