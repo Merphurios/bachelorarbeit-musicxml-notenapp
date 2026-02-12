@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import tempfile
 import uuid
@@ -10,12 +12,17 @@ from flask import Flask, request, Response
 
 app = Flask(__name__)
 
-# Pfad zu DEINER Audiveris-Installation (so wie auf deinem Screenshot)
-AUDIVERIS_EXE = r"E:\Audivers für Abschlussarbeit HTW\Audiveris.exe"
+# Audiveris-Pfad konfigurierbar machen:
+# - Windows (Beispiel): setx AUDIVERIS_EXE "E:\...\Audiveris.exe"
+# - dann Terminal neu öffnen
+AUDIVERIS_EXE = os.environ.get("AUDIVERIS_EXE")
 
-# Basis-Ausgabeverzeichnis für von Audiveris erzeugte Dateien
-AUDIVERIS_OUTPUT_BASE = Path(r"E:\omr_server\audiveris_output")
+# Output-Ordner relativ zum Repo (omr_server/audiveris_output)
+AUDIVERIS_OUTPUT_BASE = (Path(__file__).resolve().parent / "audiveris_output")
 AUDIVERIS_OUTPUT_BASE.mkdir(parents=True, exist_ok=True)
+
+if not AUDIVERIS_EXE:
+    print("[OMR] WARN: AUDIVERIS_EXE ist nicht gesetzt. OMR wird Dummy liefern.")
 
 # Dummy-MusicXML als Fallback
 DUMMY_MUSICXML = """<?xml version="1.0" encoding="UTF-8"?>
@@ -194,4 +201,4 @@ def omr():
 
 if __name__ == "__main__":
     # Wichtig: Python 3!
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=False)

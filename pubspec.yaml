@@ -1,5 +1,6 @@
 name: music_notes_app
-description: "A new Flutter project."
+description: "Flutter mobile application for managing and editing scanned music scores as part of a bachelor thesis (HTW Dresden)."
+
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

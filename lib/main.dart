@@ -3,6 +3,7 @@ import 'music_xml_editor_screen.dart';
 import 'music_xml_viewer_screen.dart';
 
 import 'package:flutter/material.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:xml/xml.dart' as xml;
 
 import 'package:http/http.dart' as http;
+
+const String omrBaseUrl = String.fromEnvironment(
+  'OMR_BASE_URL',
+  defaultValue: 'http://127.0.0.1:5000',
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -801,7 +807,7 @@ class VersionDetailScreen extends StatelessWidget {
       String pdfPath,
       ) async {
     try {
-      final uri = Uri.parse('http://192.168.2.100:5000/omr');
+      final uri = Uri.parse('$omrBaseUrl/omr');
 
       final request = http.MultipartRequest('POST', uri);
       request.files.add(

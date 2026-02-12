@@ -1,3 +1,6 @@
+// NOTE: Legacy/Debug screen. Not used in the current UI flow.
+// Kept for documentation / debugging during thesis development.
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';

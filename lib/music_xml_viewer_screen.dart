@@ -285,7 +285,7 @@ class _MusicXmlViewerScreenState extends State<MusicXmlViewerScreen> {
 
         // hasSecondVoice in Firestore updaten
         await FirebaseFirestore.instance
-          .collection('version')
+          .collection('versions')
           .doc(widget.versionId)
           .update({
           'hasSecondVoice' : _secondVoiceActive,
@@ -819,7 +819,7 @@ class _MusicXmlViewerScreenState extends State<MusicXmlViewerScreen> {
             ),
             IconButton(
               icon: const Icon(Icons.save),
-              tooltip: 'Soeichern',
+              tooltip: 'Speichern',
               onPressed: _isBusy ? null : _showSaveOptionsDialog,
             ),
           ],
