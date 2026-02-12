@@ -66,6 +66,7 @@ Die Lösung folgt einem klassischen Client-Server-Ansatz:
 ├─ pubspec.yaml
 ├─ README.md
 └─ .gitignore
+```
 
 ## Setup
 
