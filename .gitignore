@@ -95,3 +95,8 @@ omr_server/audiveris_output/
 omr_server/*.omr
 omr_server/*.log
 omr_server/tmp/
+
+# Kotlin / Android build logs
+android/.kotlin/
+*.log
+

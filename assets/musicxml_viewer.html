@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <title>MusicXML Viewer</title>
+
+    <style>
+        html, body {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          width: 100%;
+          overflow: auto;
+          background-color: #fdfdfd;
+          font-family: sans-serif;
+        }
+        #osmdContainer {
+          width: 100%;
+          height: 100%;
+        }
+    </style>
+
+    <!-- OpenSheetMusicDisplay von jsDelivr-CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.8.9/build/opensheetmusicdisplay.min.js"></script>
+</head>
+<body>
+<div id="osmdContainer"></div>
+
+<script>
+    const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(
+      "osmdContainer",
+      {
+        autoResize: true,
+        drawingParameters: "compacttight",   // engeres Layout
+        drawPartNames: false,                // "Voice" / "Piano" ausblenden
+        drawPartAbbreviations: false,
+        drawTitle: false,
+        drawSubtitle: false,
+        drawComposer: false,
+        drawLyricist: false
+      }
+    );
+
+    // Gesamtnotenbild etwas kleiner machen
+    osmd.zoom = 0.85; // ggf. 0.8 oder 0.9 probieren
+
+    window.loadMusicXmlBase64 = async function(b64) {
+      const xml = atob(b64);
+      await osmd.load(xml);
+      osmd.render();
+    };
+</script>
+</body>
+</html>
