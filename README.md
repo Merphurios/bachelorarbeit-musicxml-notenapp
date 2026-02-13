@@ -72,6 +72,8 @@ Die Lösung folgt einem klassischen Client-Server-Ansatz:
 
 ### Voraussetzungen
 
+Hinweis: Die Firebase-Konfigurationsdateien (google-services.json / GoogleService-Info.plist) sind aus Sicherheitsgründen nicht im Repository enthalten und müssen lokal ergänzt werden.
+
 #### Flutter / App
 - Flutter: **>= 3.32.0** (siehe `pubspec.lock`)
 - Dart: **>= 3.8.1**
@@ -103,3 +105,4 @@ Die Basis-URL kann beim Build der App über `--dart-define` gesetzt werden:
 ```bash
 flutter run --dart-define=OMR_BASE_URL=http://<IP-Adresse>:5000
 ```
+
