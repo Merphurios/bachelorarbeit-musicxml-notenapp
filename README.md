@@ -106,3 +106,9 @@ Die Basis-URL kann beim Build der App über `--dart-define` gesetzt werden:
 flutter run --dart-define=OMR_BASE_URL=http://<IP-Adresse>:5000
 ```
 
+> Hinweis (Android-Gerät im WLAN):
+> Damit ein echtes Android-Gerät im lokalen Netzwerk den Server erreichen kann, muss Flask auf `0.0.0.0` lauschen.
+> Beispiel:
+> `flask --app omr_server.py run --host 0.0.0.0 --port 5000`
+> (Im Emulator reicht meist localhost/10.0.2.2.)
+
