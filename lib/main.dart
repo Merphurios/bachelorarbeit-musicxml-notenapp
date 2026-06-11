@@ -138,10 +138,13 @@ class WorkListScreen extends StatelessWidget {
       final firestore = FirebaseFirestore.instance;
 
       // 1. Alle Versionen zu diesem Work laden
-      final versionsSnap = await firestore
-          .collection('versions')
-          .where('workId', isEqualTo: workId)
-          .get();
+     final userId = FirebaseAuth.instance.currentUser!.uid;
+
+     final versionsSnap = await firestore
+       .collection('versions')
+       .where('workId', isEqualTo: workId)
+       .where('createdBy', isEqualTo: userId)
+       .get();
 
       // 2. Zu jeder Version die lokale PDF löschen + Version-Dokument löschen
       for (final doc in versionsSnap.docs) {
@@ -186,7 +189,11 @@ class WorkListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final worksRef = FirebaseFirestore.instance.collection('works');
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+
+final worksRef = FirebaseFirestore.instance
+    .collection('works')
+    .where('createdBy', isEqualTo: userId);
 
     return Scaffold(
       appBar: AppBar(
@@ -382,12 +389,14 @@ class VersionListScreen extends StatelessWidget {
   Future<void> _createNewVersion(BuildContext context) async {
     try {
       final firestore = FirebaseFirestore.instance;
+      final userId = FirebaseAuth.instance.currentUser!.uid;
 
       // 1. Bisherige Versionen für dieses Werk laden
       final snapshot = await firestore
-          .collection('versions')
-          .where('workId', isEqualTo: workId)
-          .get();
+        .collection('versions')
+        .where('workId', isEqualTo: workId)
+        .where('createdBy', isEqualTo: userId)
+        .get();
 
       final count = snapshot.docs.length;
 
@@ -449,8 +458,6 @@ class VersionListScreen extends StatelessWidget {
 
       // Nutzer hat abgebrochen
       if (info == null) return;
-
-      final userId = FirebaseAuth.instance.currentUser?.uid;
 
       // 5. Neue Version in Firestore anlegen
       final versionRef = await firestore.collection('versions').add({
@@ -567,9 +574,12 @@ class VersionListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    
     final versionsRef = FirebaseFirestore.instance
         .collection('versions')
         .where('workId', isEqualTo: workId)
+        .where('createdBy', isEqualTo: userId);
         //.orderBy('createAt', descending: false)
         ;
 
