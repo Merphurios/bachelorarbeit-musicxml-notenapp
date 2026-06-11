@@ -1,6 +1,6 @@
 # bachelorarbeit-musicxml-notenapp
 
-Bachelorarbeit (HTW Dresden): Workflow zur Digitalisierung, Versionierung und Bearbeitung gescannter Musiknoten  
+Bachelorarbeit an der HTW Dresden: Workflow zur Digitalisierung, Versionierung und Bearbeitung gescannter Musiknoten
 (Flutter + OMR-Server + MusicXML)
 
 ---
@@ -9,42 +9,41 @@ Bachelorarbeit (HTW Dresden): Workflow zur Digitalisierung, Versionierung und Be
 
 Dieses Repository enthält:
 
-- eine **Flutter-Mobile-App** für Android zur Erfassung, Verwaltung und Bearbeitung von Notenprojekten
-- einen **OMR-Server** (Flask + Audiveris) zur Umwandlung von PDF-Scans in MusicXML
-- ergänzende **Dokumentation** (z. B. die Bachelorarbeit als PDF und Diagramme)
+* eine **Flutter-App** für Android zur Erfassung, Verwaltung und Bearbeitung von Notenprojekten
+* einen **OMR-Server** auf Basis von Flask und Audiveris zur Umwandlung von PDF-Scans in MusicXML
 
 ---
 
 ## Architekturüberblick
 
-Die Lösung folgt einem klassischen Client-Server-Ansatz:
+Die Lösung folgt einem Client-Server-Ansatz.
 
 ### Mobile App (Flutter)
 
-- Anonyme Anmeldung mit Firebase Authentication  
-- Verwaltung von „Werken“ (`works`) und deren Versionen (`versions`) in Firestore  
-- Aufnahme von Notenblättern per Kamera und Speicherung als PDF  
-- Import oder Generierung von MusicXML-Dateien pro Version  
-- Anzeige der MusicXML-Datei im integrierten Notenviewer  
-- Einfache Bearbeitungsfunktionen:
-  - Oktavtransposition (±1 Oktave)
-  - Halbtontransposition (±2/±3 Halbtöne)
-  - Erzeugen/Entfernen einer einfachen Zweitstimme
+* anonyme Anmeldung mit Firebase Authentication
+* Verwaltung von Werken (`works`) und deren Versionen (`versions`) in Firestore
+* Aufnahme von Notenblättern per Kamera und Speicherung als PDF
+* Import oder Generierung von MusicXML-Dateien pro Version
+* Anzeige der MusicXML-Dateien im integrierten Notenviewer
+* einfache Bearbeitungsfunktionen:
+
+  * Oktavtransposition um ±1 Oktave
+  * Halbtontransposition um ±2 oder ±3 Halbtöne
+  * Erzeugen und Entfernen einer einfachen Zweitstimme
 
 ### OMR-Server (Python/Flask + Audiveris)
 
-- HTTP-Endpoint `/omr`  
-- nimmt ein PDF als Multipart-Upload entgegen  
-- ruft Audiveris im Batch-Modus auf  
-- durchsucht das Ausgabeverzeichnis nach MusicXML/MXL  
-- liefert bei Erfolg die MusicXML-Datei zurück  
-- bei Fehlern wird eine definierte Dummy-MusicXML zurückgegeben
+* stellt den HTTP-Endpunkt `/omr` bereit
+* nimmt ein PDF als Multipart-Upload entgegen
+* ruft Audiveris im Batch-Modus auf
+* durchsucht das Ausgabeverzeichnis nach MusicXML- oder MXL-Dateien
+* liefert bei Erfolg die erzeugte MusicXML-Datei zurück
+* gibt bei Fehlern eine definierte Dummy-MusicXML zurück
 
 ### Datenhaltung
 
-- **Firestore** speichert Metadaten zu Werken und Versionen (Titel, Kommentare, Pfade etc.).  
-- **Lokales Dateisystem** des Geräts speichert PDFs und MusicXML-Dateien unter einer stabilen Ordnerstruktur:
-
+* **Firestore** speichert Metadaten zu Werken und Versionen, beispielsweise Titel, Kommentare und lokale Dateipfade.
+* Das **lokale Dateisystem** des Geräts speichert die erzeugten PDF- und MusicXML-Dateien.
 
 ---
 
@@ -52,63 +51,95 @@ Die Lösung folgt einem klassischen Client-Server-Ansatz:
 
 ```text
 .
-├─ lib/                      # Flutter-Dart-Code (App)
+├─ lib/                      # Flutter-Dart-Code der App
 ├─ android/                  # Android-spezifische Flutter-Dateien
-├─ ios/                      # iOS-spezifische Flutter-Dateien (optional)
 ├─ assets/
-│   └─ musicxml_viewer.html  # HTML + JS (OpenSheetMusicDisplay) für den Notenviewer
+│  └─ musicxml_viewer.html   # Notenviewer mit OpenSheetMusicDisplay
 ├─ omr_server/
-│   ├─ omr_server.py         # Flask-Server, der Audiveris ansteuert
-│   ├─ requirements.txt      # Python-Abhängigkeiten
-│   └─ audiveris_output/     # (im .gitignore, nur Laufzeit-Output)
-├─ docs/
-│   └─ Bachelorarbeit.pdf    # (optional) finale Arbeit / Diagramme
-├─ pubspec.yaml
+│  ├─ omr_server.py          # Flask-Server zur Ansteuerung von Audiveris
+│  ├─ requirements.txt       # Python-Abhängigkeiten
+│  └─ audiveris_output/      # Laufzeitausgabe, nicht versioniert
+├─ web/                      # Flutter-Webdateien
+├─ windows/                  # Flutter-Windowsdateien
+├─ pubspec.yaml              # Flutter-Abhängigkeiten
+├─ analysis_options.yaml     # Dart-Analyseoptionen
+├─ LICENSE                   # MIT-Lizenz
 ├─ README.md
 └─ .gitignore
 ```
+
+---
 
 ## Setup
 
 ### Voraussetzungen
 
-Hinweis: Die Firebase-Konfigurationsdateien (google-services.json / GoogleService-Info.plist) sind aus Sicherheitsgründen nicht im Repository enthalten und müssen lokal ergänzt werden.
+#### Flutter/App
 
-#### Flutter / App
-- Flutter: **>= 3.32.0** (siehe `pubspec.lock`)
-- Dart: **>= 3.8.1**
-- Android Studio / Android SDK (für Android Build/Emulator)
+* Flutter: **>= 3.32.0**
+* Dart: **>= 3.8.1**
+* Android Studio und Android SDK für den Android-Build oder Emulator
 
-#### Python / OMR-Server
-- Python: **3.7+** (getestet mit 3.7.8)
-- Abhängigkeiten:
+#### Python/OMR-Server
+
+* Python: **3.7+** (getestet mit Python 3.7.8)
+* Installation der Python-Abhängigkeiten:
 
 ```bash
 cd omr_server
 py -m pip install -r requirements.txt
 ```
 
-#### Verbindung zwischen App und OMR-Server
+### Firebase-Konfiguration
 
-Die Flutter-App kommuniziert mit dem lokalen OMR-Server (Flask, Standard: Port 5000) über HTTP.
+Die Firebase-Konfigurationsdateien sind nicht im Repository enthalten.
 
-Standardmäßig wird folgende Basis-URL verwendet:  
-`http://127.0.0.1:5000`
+Zum Ausführen der App muss ein eigenes Firebase-Projekt eingerichtet werden. Anschließend muss die Datei
 
-Wichtig:
-- `127.0.0.1` funktioniert nur, wenn App und Server auf demselben Gerät laufen.
-- Bei Verwendung eines Android-Emulators muss in der Regel `http://10.0.2.2:5000` verwendet werden.
-- Bei einem echten Android-Gerät muss die IP-Adresse des PCs im lokalen Netzwerk verwendet werden (z. B. `http://192.168.x.x:5000`).
+```text
+android/app/google-services.json
+```
 
-Die Basis-URL kann beim Build der App über `--dart-define` gesetzt werden:
+lokal ergänzt werden.
+
+Im Firebase-Projekt werden außerdem benötigt:
+
+* Firebase Authentication mit aktivierter anonymer Anmeldung
+* eine Cloud-Firestore-Datenbank
+* geeignete Firestore-Sicherheitsregeln
+
+### Verbindung zwischen App und OMR-Server
+
+Die Flutter-App kommuniziert über HTTP mit dem lokalen Flask-Server. Standardmäßig wird Port `5000` verwendet.
+
+Die voreingestellte Basis-URL lautet:
+
+```text
+http://127.0.0.1:5000
+```
+
+Dabei ist Folgendes zu beachten:
+
+* Bei einem Android-Emulator wird normalerweise `http://10.0.2.2:5000` verwendet.
+* Bei einem echten Android-Gerät muss die lokale IP-Adresse des PCs verwendet werden, beispielsweise `http://192.168.x.x:5000`.
+* Das Android-Gerät und der PC müssen sich im selben lokalen Netzwerk befinden.
+
+Die Basis-URL kann beim Start über `--dart-define` gesetzt werden:
 
 ```bash
 flutter run --dart-define=OMR_BASE_URL=http://<IP-Adresse>:5000
 ```
 
-> Hinweis (Android-Gerät im WLAN):
-> Damit ein echtes Android-Gerät im lokalen Netzwerk den Server erreichen kann, muss Flask auf `0.0.0.0` lauschen.
-> Beispiel:
-> `flask --app omr_server.py run --host 0.0.0.0 --port 5000`
-> (Im Emulator reicht meist localhost/10.0.2.2.)
+Damit ein echtes Android-Gerät auf den Server zugreifen kann, muss Flask auf allen Netzwerkschnittstellen lauschen:
 
+```bash
+flask --app omr_server.py run --host 0.0.0.0 --port 5000
+```
+
+Für den Android-Emulator wird üblicherweise `10.0.2.2` als Adresse des Host-PCs verwendet.
+
+---
+
+## Lizenz
+
+Dieses Projekt steht unter der MIT-Lizenz. Weitere Informationen befinden sich in der Datei [`LICENSE`](LICENSE).
