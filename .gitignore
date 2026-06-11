@@ -17,6 +17,19 @@ build/
 **/flutter_export_environment.sh
 
 ################################################################################
+# Umgebungsvariablen und Zugangsdaten
+################################################################################
+
+.env
+.env.*
+!.env.example
+
+# Firebase-Admin- und Service-Account-Schlüssel
+**/service-account*.json
+**/serviceAccount*.json
+**/*firebase-adminsdk*.json
+
+################################################################################
 # Android
 ################################################################################
 
